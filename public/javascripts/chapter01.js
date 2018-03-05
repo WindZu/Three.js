@@ -1,8 +1,25 @@
+var scene;
+var camera;
+var renderer;
 function init() {
-    var scene=new THREE.Scene();
-    var camera=new THREE.PerspectiveCamera(45,window.innerWidth/window.innerHeight,0.1,1000);
+    //显示fps
+    var stats=initStats();
 
-    var renderer=new THREE.WebGLRenderer();
+    //使用gui控制物体运动的参数
+    var controls=new function(){
+        this.rotationSpeed=0.02;
+        this.bouncingSpeed=0.03;
+    }
+
+    var gui=new dat.GUI();
+    gui.add(controls,'rotationSpeed',0,0.5);
+    gui.add(controls,'bouncingSpeed',0,0.5);
+
+    //场景
+    scene=new THREE.Scene();
+    camera=new THREE.PerspectiveCamera(45,window.innerWidth/window.innerHeight,0.1,1000);
+
+    renderer=new THREE.WebGLRenderer();
     renderer.setClearColor(0xEEEEEE);
     renderer.setSize(window.innerWidth,window.innerHeight);
     renderer.shadowMapEnabled=true;//开启阴影渲染
@@ -78,7 +95,51 @@ function init() {
 
     document.getElementById("WebGL-output").appendChild(renderer.domElement);
 
-    renderer.render(scene,camera);
 
+
+    //renderer.render(scene,camera);
+    renderScene();
+
+    var step=0;
+
+    //动态渲染
+    function renderScene(){
+        stats.update();//通知stats对象  画面何时被渲染
+
+        // cube旋转
+        cube.rotation.x += controls.rotationSpeed;
+        cube.rotation.y += controls.rotationSpeed;
+        cube.rotation.z += controls.rotationSpeed;
+        // sphere上下跳动
+        step += controls.bouncingSpeed;
+        sphere.position.x = 20 + ( 10 * (Math.cos(step)));
+        sphere.position.y = 2 + ( 10 * Math.abs(Math.sin(step)));
+        requestAnimationFrame(renderScene);
+        renderer.render(scene,camera);
+    }
+
+    //显示fps
+    function initStats(){
+        var stats=new Stats();
+        stats.setMode(0);//参数为0 检测每秒帧数fps  参数为1 检测画面渲染时间ms
+
+        stats.domElement.style.position='absolute';
+        stats.domElement.style.left='0px';
+        stats.domElement.style.top='0px';
+
+        document.getElementById("Stats-output").appendChild(stats.domElement);
+        return stats;
+    }
 }
+
+function onResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
 window.onload = init;
+
+// 窗口添加resize监听器
+window.addEventListener('resize', onResize, false);
+
