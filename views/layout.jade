@@ -1,14 +1,27 @@
 doctype html
 html
   head
-    title Three.js
+    title title
+    meta(charset="utf8")
+    meta(name="theme-color" content="#3F51B5")
+    link(rel="stylesheet", href="/stylesheets/mdui.min.css")
     script(type='text/javascript', src='/javascripts/three.js')
-    style.
-      body {
-      margin: 0;
-      overflow: hidden;
-      }
-  body
+
+
+  body.mdui-appbar-with-toolbar.mdui-drawer-body-left
+    .mdui-appbar.mdui-appbar-fixed
+      .mdui-toolbar.mdui-color-light-blue-500.mdui-text-color-white
+        a.mdui-btn.mdui-btn-icon(href='javascript:;')
+          i.mdui-icon.material-icons menu
+        a.mdui-typo-headline(href='javascript:;') MDUI
+        a.mdui-typo-title(href='javascript:;') Title
+        .mdui-toolbar-spacer
+        a.mdui-btn.mdui-btn-icon(href='javascript:;')
+          i.mdui-icon.material-icons search
+        a.mdui-btn.mdui-btn-icon(href='javascript:;')
+          i.mdui-icon.material-icons refresh
+        a.mdui-btn.mdui-btn-icon(href='javascript:;')
+          i.mdui-icon.material-icons more_vert
     block content
 
 
