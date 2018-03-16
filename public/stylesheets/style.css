@@ -6,3 +6,20 @@ body {
   background-repeat: no-repeat;
 }
 
+#info {
+  position: absolute;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+#threejs {
+  position:absolute;
+  left:235px;
+  top:65px;
+}
+
+a {
+  text-decoration: underline;
+  cursor: pointer;
+}
